@@ -1,0 +1,27 @@
+{
+	"name": "satrun77/configurablepage",
+	"description": "This module allows CMS users to create pages with customisable fields that are selectable from an admin defined list",
+	"keywords": ["silverstripe", "page", "page type"],
+	"type": "silverstripe-module",
+	"homepage": "https://github.com/satrun77/silverstripe-configurablepage",
+	"license": "MIT",
+	"authors": [{
+			"name": "Mohamed Alsharaf",
+			"email": "mohamed.alsharaf@gmail.com",
+			"homepage": "http://my.geek.nz",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"silverstripe/framework": "~3.1",
+		"silverstripe/cms": "~3.1",
+		"satrun77/editablefield": "dev-master"
+	},
+	"suggest": {
+		"satrun77/viewtemplate": "Allows to create reusable templates that make use of editable fields objects."
+	},
+	"support": {
+		"issues": "https://github.com/satrun77/silverstripe-configurablepage/issues"
+	},
+	"minimum-stability": "dev"
+}

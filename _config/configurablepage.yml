@@ -1,0 +1,6 @@
+---
+name: configurablepage
+---
+EditableField:
+  extensions:
+    - ConfigurablePageFieldExtension
