@@ -1,0 +1,76 @@
+EditableFieldOption:
+    option1:
+        Name: Option1
+        Title: Option 1
+
+    option2:
+        Name: Option2
+        Title: Option 2
+
+    option3:
+        Name: Option3
+        Title: Option 3
+
+EditableFieldText:
+    textfield1:
+        Name: textfield1
+        Title: Text Field
+        CustomSettings: a:5:{s:10:"ExtraClass";s:11:"extra-class";s:10:"RightTitle";s:11:"Right title";s:9:"MinLength";s:0:"";s:9:"MaxLength";s:0:"";s:4:"Rows";s:1:"1";}
+        Required: 1
+        CustomErrorMessage: Empty value is not allowed
+
+EditableFieldPageTypeList:
+    pagetypefield1:
+        Name: pagetypefield1
+        Title: Page Type list 1
+
+    pagetypefield2:
+        Name: pagetypefield2
+        Title: Page Type list 2
+        CustomSettings: a:1:{s:12:"PageTypeName";s:4:"Page";}
+
+EditableFieldCountryDropdown:
+    countryfield:
+        Name: countryfield
+        Title: Country list
+
+EditableFieldDate:
+    dobfield:
+        Name: dobfield
+        Title: DOB text
+
+EditableFieldMemberList:
+    memberfield1:
+        Name: memberfield1
+        Title: Member list 1
+        CustomSettings: a:1:{s:7:"GroupID";s:1:"1";}
+
+    memberfield2:
+        Name: memberfield2
+        Title: Member list 2
+
+EditableFieldCheckboxGroup:
+    checkboxgroup:
+        Name: checkboxgroup
+        Title: Check box group
+        Options: =>EditableFieldOption.option1, =>EditableFieldOption.option2, =>EditableFieldOption.option3
+
+EditableFieldHeading:
+    headingfield:
+        Name: headingfield
+        Title: Heading text
+        CustomSettings: a:1:{s:5:"Level";i:3;}
+
+ConfigurablePage:
+    page-1:
+        Title: Configurable Page 1
+        Fields: =>EditableFieldText.textfield1, =>EditableFieldPageTypeList.pagetypefield1, =>EditableFieldMemberList.memberfield2
+
+    page-2:
+        Title: Configurable Page 1
+        Fields: =>EditableFieldCountryDropdown.countryfield, =>EditableFieldDate.dobfield, =>EditableFieldMemberList.memberfield1, =>EditableFieldHeading.headingfield, =>EditableFieldCheckboxGroup.checkboxgroup, =>EditableFieldPageTypeList.pagetypefield2
+
+Page:
+    page-3:
+        Title: Sample Page 3
+        URLSegment: page3
