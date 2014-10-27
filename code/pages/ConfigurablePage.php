@@ -10,7 +10,7 @@ class ConfigurablePage extends Page {
 	private static $many_many = array(
 		'Fields' => 'EditableField'
 	);
-	public static $many_many_extraFields = array(
+	private static $many_many_extraFields = array(
 		'Fields' => array(
 			'Value' => 'Text',
 			"Sort" => "Int",
