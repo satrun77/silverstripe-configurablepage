@@ -35,12 +35,14 @@ class ConfigurablePageTest extends FunctionalTest {
 	function testFieldsRendering() {
 		$this->logInWithPermission('EDITOR');
 
+		$page3 = Page::get_by_link('page3');
+		$memberId = Member::currentUserID();
 		$values = array(
 			'checkboxgroup' => '2,0',
 			'countryfield' => 'NZ',
 			'dobfield' => '2014-1-1',
-			'memberfield1' => '2',
-			'pagetypefield2' => '3'
+			'memberfield1' => (string) $memberId,
+			'pagetypefield2' => (string) $page3->ID
 		);
 
 		$page = $this->objFromFixture('ConfigurablePage', 'page-2');
