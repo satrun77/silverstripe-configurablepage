@@ -17,7 +17,7 @@ class CountryField extends ViewableData {
 	 * Set a country code
 	 *
 	 * @param string $value
-	 * @return Moo_CountryField
+	 * @return CountryField
 	 */
 	public function setValue($value) {
 		$this->countryCode = $value;
