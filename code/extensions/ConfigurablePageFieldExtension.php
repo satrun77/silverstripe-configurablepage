@@ -104,7 +104,6 @@ class ConfigurablePageFieldExtension extends DataExtension {
 	/**
 	 * Format the field Title to be suitable as a variable in template.
 	 *
-	 * @todo imporve this to better refernce
 	 * @return string
 	 */
 	public function getViewFieldName() {

@@ -29,9 +29,9 @@ class ConfigurablePage extends Page {
 	protected $requiredFields = array();
 
 	/**
-	 * An array containing the current values from the configurable fields
+	 * An instance of ManyManyList containing the current values from the configurable fields
 	 *
-	 * @var array
+	 * @var ManyManyList
 	 */
 	protected $editableFields;
 
@@ -61,14 +61,6 @@ class ConfigurablePage extends Page {
 		));
 		$config->addComponent(new GridFieldEditableManyManyExtraColumns(array('Sort' => 'Int')), 'GridFieldEditButton');
 		$field = new GridField('Fields', 'Field', $list, $config);
-		// 		$field->getConfig()->getComponentByType('GridFieldDataColumns')->setFieldFormatting(array(
-		// 			'Name' => function($val, $obj) {
-		// 				if($obj instanceof EditableFormField){
-		// 					return '<img src="' . $obj->getIcon() . '"/>';
-		// 				}
-		// 				return $obj;
-		// 			}
-		// 		));
 		$fields->addFieldToTab('Root.ManagePageFields', $field);
 
 		// JS & CSS for the gridfield sort column
@@ -205,10 +197,10 @@ class ConfigurablePage extends Page {
 	/**
 	 * Get an array of all of the editable fields for the view template
 	 *
-	 * @return array|string|object
+	 * @return ManyManyList
 	 */
 	public function getEditableFields() {
-		if(null == $this->editableFields) {
+		if(null === $this->editableFields) {
 			$this->editableFields = $this->Fields();
 		}
 		return $this->editableFields;
