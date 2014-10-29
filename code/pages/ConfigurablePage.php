@@ -166,7 +166,7 @@ class ConfigurablePage extends Page {
 	/**
 	 * Format the page Content
 	 *
-	 * @return AHTMLText
+	 * @return string
 	 */
 	public function Content() {
 		// Get custom fields
