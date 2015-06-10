@@ -14,7 +14,11 @@ class ConfigurablePage extends Page {
 		'Fields' => array(
 			'Value' => 'Text',
 			"Sort" => "Int",
+			"Group" => "Int"
 		)
+	);
+	private static $has_one = array(
+		'EditableFieldGroup' => 'EditableFieldGroup'
 	);
 	private static $singular_name = 'Configurable Page';
 	private static $plural_name = 'Configurable Pages';
@@ -34,6 +38,7 @@ class ConfigurablePage extends Page {
 	 * @var ManyManyList
 	 */
 	protected $editableFields;
+	private static $allowed_children = ["*Config"];
 
 	/**
 	 * (non-PHPdoc)
@@ -44,12 +49,13 @@ class ConfigurablePage extends Page {
 		$fields = parent::getCMSFields();
 
 		// List of available fields in the page
-		$list = $this->Fields()->sort('Sort', 'ASC');
+		$groupFields = $this->EditableFieldGroup()->Fields();
+		$list = $this->Fields()->addMany($groupFields)->sort('Sort', 'ASC');
 
 		// Add tab to edit fields values
 		$this->buildPageFieldsTab($list, $fields);
 
-		// Add Tab to add fields into the page type
+		// GridField for managing page specific fields
 		$config = GridFieldConfig_RelationEditor::create();
 		$config->getComponentByType('GridFieldPaginator')->setItemsPerPage(10);
 		$config->removeComponentsByType('GridFieldAddNewButton');
@@ -58,10 +64,35 @@ class ConfigurablePage extends Page {
 			'Name' => _t('ConfigurablePage.NAME', 'Name'),
 			'Title' => _t('ConfigurablePage.TITLE', 'Title'),
 			'Sort' => _t('ConfigurablePage.SORT', 'Sort'),
+			'Group' => _t('ConfigurablePage.GROUP', 'Group'),
 		));
 		$config->addComponent(new GridFieldEditableManyManyExtraColumns(array('Sort' => 'Int')), 'GridFieldEditButton');
-		$field = new GridField('Fields', 'Field', $list, $config);
-		$fields->addFieldToTab('Root.ManagePageFields', $field);
+		$config->getComponentByType('GridFieldDataColumns')
+			->setFieldFormatting([
+				'Group'  => function ($value, $item) {
+					return !$value? '' : $this->EditableFieldGroup()->Title;
+				}
+			]);
+		$fieldsField = new GridField('Fields', 'Fields', $list, $config);
+
+		// Drop-down list of editable field groups
+		$groups = EditableFieldGroup::get()->map();
+		$groups->unshift('', '');
+
+		$groupsField = new DropdownField(
+			"EditableFieldGroupID",
+			_t('ConfigurablePage.FIELDGROUP', 'Editable field group'),
+			$groups
+		);
+		$groupsField->setDescription(_t(
+			'ConfigurablePage.FIELDGROUP_HELP',
+			'Select a group to load its collection of fields in the current page. '
+			. 'You need to click save to update the page fields.'
+		));
+
+		// Add fields to manage page fields tab
+		$fields->addFieldToTab('Root.ManagePageFields', $groupsField);
+		$fields->addFieldToTab('Root.ManagePageFields', $fieldsField);
 
 		// JS & CSS for the gridfield sort column
 		Requirements::javascript('configurablepage/javascript/ConfigurablePage.js');
@@ -153,12 +184,13 @@ class ConfigurablePage extends Page {
 				// Extra fields to be saved
 				$value = $field->Value();
 				$sort = $pageField->Sort;
+				$group = $pageField->Group;
 
 				// Clone the editable field object
 				// Remove the current saved one
 				$pageFields->remove($pageField);
 				// Add the clone with the new extra data
-				$pageFields->add($pageField, array('Value' => $value, 'Sort' => $sort));
+				$pageFields->add($pageField, array('Value' => $value, 'Sort' => $sort, 'Group' => $group));
 			}
 		}
 	}
@@ -201,7 +233,14 @@ class ConfigurablePage extends Page {
 	 */
 	public function getEditableFields() {
 		if(null === $this->editableFields) {
-			$this->editableFields = $this->Fields();
+			// Fields from editable field groups
+			$groupFields = $this->EditableFieldGroup()->Fields();
+
+			// Remove all fields that are used to belong to editable field group
+			// Sync editable field group with page specific fields
+			$this->editableFields = $this->Fields()->removeByFilter(
+				'"Group" > 0 AND EditableFieldID NOT IN (' . implode(',', $groupFields->getIDList()) . ')'
+				)->addMany($groupFields);
 		}
 		return $this->editableFields;
 	}

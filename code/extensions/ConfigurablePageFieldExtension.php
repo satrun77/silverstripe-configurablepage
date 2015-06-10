@@ -174,4 +174,14 @@ class ConfigurablePageFieldExtension extends DataExtension {
 		return $value;
 	}
 
+	/**
+	 * Editable field can only be changed if is not part of a group
+	 *
+	 * @param null $member
+	 *
+	 * @return bool
+	 */
+	public function canEdit($member = null) {
+		return $this->owner->Group == 0;
+	}
 }

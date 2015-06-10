@@ -4,3 +4,7 @@ name: configurablepage
 EditableField:
   extensions:
     - ConfigurablePageFieldExtension
+
+EditableFieldGroup:
+  extensions:
+    - ConfigurablePageFieldGroupExtension
