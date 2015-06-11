@@ -137,15 +137,7 @@ class ConfigurablePageFieldExtension extends DataExtension {
 	 * @return Member
 	 */
 	protected function memberListField() {
-		$value = $this->owner->Value;
-
-		if(is_numeric($value) && $value > 0) {
-			$value = Member::get()->byID($value);
-		} else if(is_null($value)) {
-			$value = '';
-		}
-
-		return $value;
+		return $this->objectField('Member');
 	}
 
 	/**
@@ -163,10 +155,14 @@ class ConfigurablePageFieldExtension extends DataExtension {
 	}
 
 	protected function pageTypeField() {
+		return $this->objectField('Page');
+	}
+
+	protected function objectField($name) {
 		$value = $this->owner->Value;
 
 		if(is_numeric($value) && $value > 0) {
-			$value = Page::get()->byID($value);
+			$value = $name::get()->byID($value);
 		} else if(is_null($value)) {
 			$value = '';
 		}
