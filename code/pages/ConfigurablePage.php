@@ -38,7 +38,13 @@ class ConfigurablePage extends Page {
 	 * @var ManyManyList
 	 */
 	protected $editableFields;
-	private static $allowed_children = ["*Config"];
+
+	/**
+	 * List of allowed child page types
+	 *
+	 * @var array
+	 */
+	private static $allowed_children = array('ConfigurablePage', 'SiteTree');
 
 	/**
 	 * (non-PHPdoc)
