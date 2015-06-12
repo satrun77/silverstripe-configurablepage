@@ -241,13 +241,23 @@ class ConfigurablePage extends Page {
 		if(null === $this->editableFields) {
 			// Fields from editable field groups
 			$groupFields = $this->EditableFieldGroup()->Fields();
+			$ids = $groupFields->getIDList();
+
+			// Set page specific fields
+			$this->editableFields = $this->Fields();
 
 			// Remove all fields that are used to belong to editable field group
-			// Sync editable field group with page specific fields
-			$this->editableFields = $this->Fields()->removeByFilter(
-				'"Group" > 0 AND EditableFieldID NOT IN (' . implode(',', $groupFields->getIDList()) . ')'
+			// Then sync editable field group with page specific fields
+			// Else remove all of a group editable fields if exists
+			if (!empty($ids)) {
+				$this->editableFields->removeByFilter(
+					'"Group" > 0 AND EditableFieldID NOT IN (' . implode(',', $ids) . ')'
 				)->addMany($groupFields);
+			} else {
+				$this->editableFields->removeByFilter('"Group" > 0');
+			}
 		}
+
 		return $this->editableFields;
 	}
 
