@@ -56,15 +56,8 @@ The link between the fields and the page has now been created.
 
 You are now finished and have created a configurable page without any code :)
 
-### Future improvements
-
-Currently, to add a new field to the staff page (ie. link to personal site), you will have to edit each staff page and repeat the same steps.
-
-- Link an editable field.
-- Enter the value.
-- Save changes.
-
-In a future version, the module will include a feature that can handle this issue more efficiently (ie. create a editable field template instead of adding fields to page).
+### Editable field groups
+... Undocumented!
 
 ### How to create {{SHOW_STAFF_EMAIL}}
 
