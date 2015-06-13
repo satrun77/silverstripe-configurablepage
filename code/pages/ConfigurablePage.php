@@ -75,7 +75,7 @@ class ConfigurablePage extends Page {
 		$config->addComponent(new GridFieldEditableManyManyExtraColumns(array('Sort' => 'Int')), 'GridFieldEditButton');
 		$config->getComponentByType('GridFieldDataColumns')
 			->setFieldFormatting([
-				'Group'  => function ($value, $item) {
+				'Group'  => function ($value) {
 					return !$value? '' : $this->EditableFieldGroup()->Title;
 				}
 			]);
