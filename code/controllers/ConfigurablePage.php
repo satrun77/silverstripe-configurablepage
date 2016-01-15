@@ -6,6 +6,6 @@
  * @author  Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  * @package configurablepage
  */
-class ConfigurablePage_Controller extends Page_Controller {
-
+class ConfigurablePage_Controller extends Page_Controller
+{
 }
