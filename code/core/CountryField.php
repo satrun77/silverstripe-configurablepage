@@ -1,22 +1,23 @@
 <?php
 
 /**
- * CountryField is an object that hold a country locale details. It is callable from template files
+ * CountryField is an object that hold a country locale details. It is callable from template files.
  *
  * @author  Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @package configurablepage
  */
 class CountryField extends ViewableData
 {
     /**
-     * Country code
+     * Country code.
      *
      * @var string
      */
     protected $countryCode;
 
     /**
-     * Set a country code
+     * Set a country code.
      *
      * @param string $value
      *
@@ -30,7 +31,7 @@ class CountryField extends ViewableData
     }
 
     /**
-     * Get country code
+     * Get country code.
      *
      * @return string
      */
@@ -40,12 +41,12 @@ class CountryField extends ViewableData
     }
 
     /**
-     * Get the country full name based on the code supplied to the object
+     * Get the country full name based on the code supplied to the object.
      *
      * @return string
      */
     public function Name()
     {
-        return (string)Zend_Locale::getTranslation($this->Code(), "country", i18n::get_locale());
+        return (string) Zend_Locale::getTranslation($this->Code(), 'country', i18n::get_locale());
     }
 }

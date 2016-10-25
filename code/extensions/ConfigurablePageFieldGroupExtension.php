@@ -1,15 +1,16 @@
 <?php
 
 /**
- * ConfigurablePageFieldGroupExtension is an extension class for EditableFieldGroup class
+ * ConfigurablePageFieldGroupExtension is an extension class for EditableFieldGroup class.
  *
  * @author  Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @package configurablepage
  */
 class ConfigurablePageFieldGroupExtension extends DataExtension
 {
     private static $has_many = [
-        'ConfigurablePages' => 'ConfigurablePage'
+        'ConfigurablePages' => 'ConfigurablePage',
     ];
 
     public function updateCMSFields(FieldList $fields)

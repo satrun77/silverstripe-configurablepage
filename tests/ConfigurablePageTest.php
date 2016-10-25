@@ -1,9 +1,10 @@
 <?php
 
 /**
- * ConfigurablePageTest contains test cases for the module classes
+ * ConfigurablePageTest contains test cases for the module classes.
  *
  * @author  Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @package configurablepage
  */
 class ConfigurablePageTest extends FunctionalTest
@@ -14,7 +15,7 @@ class ConfigurablePageTest extends FunctionalTest
     {
         $this->logInWithPermission('EDITOR');
 
-        $page = $this->objFromFixture('ConfigurablePage', 'page-1');
+        $page   = $this->objFromFixture('ConfigurablePage', 'page-1');
         $fields = $page->getCMSFields();
 
         $this->assertTrue($fields->dataFieldByName('textfield1') !== null);
@@ -25,10 +26,10 @@ class ConfigurablePageTest extends FunctionalTest
     {
         $this->logInWithPermission('EDITOR');
 
-        $value = 'Value for text field 1';
-        $page = $this->objFromFixture('ConfigurablePage', 'page-1');
+        $value            = 'Value for text field 1';
+        $page             = $this->objFromFixture('ConfigurablePage', 'page-1');
         $page->textfield1 = $value;
-        $page->Content = 'Page content $textfield1';
+        $page->Content    = 'Page content $textfield1';
         $page->write();
 
         $page2 = $this->objFromFixture('ConfigurablePage', 'page-1');
@@ -39,17 +40,17 @@ class ConfigurablePageTest extends FunctionalTest
     {
         $this->logInWithPermission('EDITOR');
 
-        $page3 = Page::get_by_link('page3');
+        $page3    = Page::get_by_link('page3');
         $memberId = Member::currentUserID();
-        $values = [
+        $values   = [
             'checkboxgroup'  => '2,0',
             'countryfield'   => 'NZ',
             'dobfield'       => '2014-1-1',
-            'memberfield1'   => (string)$memberId,
-            'pagetypefield2' => (string)$page3->ID
+            'memberfield1'   => (string) $memberId,
+            'pagetypefield2' => (string) $page3->ID,
         ];
 
-        $page = $this->objFromFixture('ConfigurablePage', 'page-2');
+        $page          = $this->objFromFixture('ConfigurablePage', 'page-2');
         $page->Content = 'Page content ----->';
         foreach ($values as $name => $value) {
             $page->setField($name, $value);

@@ -1,21 +1,22 @@
 <?php
 
 /**
- * ConfigurablePageFieldExtension is an extension class that adds extra methods to the EditableField classes
+ * ConfigurablePageFieldExtension is an extension class that adds extra methods to the EditableField classes.
  *
  * @author  Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @package configurablepage
  */
 class ConfigurablePageFieldExtension extends DataExtension
 {
     private static $belongs_many_many = [
-        'Parents' => 'ConfigurablePage'
+        'Parents' => 'ConfigurablePage',
     ];
 
     /**
-     * Get field value that is suitable for the view template file
+     * Get field value that is suitable for the view template file.
      *
-     * @return Object|false|string
+     * @return object|false|string
      */
     public function getViewValue()
     {
@@ -52,11 +53,11 @@ class ConfigurablePageFieldExtension extends DataExtension
         }
 
         // Default return string
-        return (string)$this->owner->Value;
+        return (string) $this->owner->Value;
     }
 
     /**
-     * Get string value of a field
+     * Get string value of a field.
      *
      * @return null|string
      */
@@ -106,7 +107,7 @@ class ConfigurablePageFieldExtension extends DataExtension
         }
 
         // Default return string
-        return (string)$this->owner->Value;
+        return (string) $this->owner->Value;
     }
 
     /**
@@ -120,7 +121,7 @@ class ConfigurablePageFieldExtension extends DataExtension
     }
 
     /**
-     * Format field value into CountryField object
+     * Format field value into CountryField object.
      *
      * @return CountryField
      */
@@ -132,7 +133,7 @@ class ConfigurablePageFieldExtension extends DataExtension
     }
 
     /**
-     * Format field value into Date object
+     * Format field value into Date object.
      *
      * @return Date
      */
@@ -145,7 +146,7 @@ class ConfigurablePageFieldExtension extends DataExtension
     }
 
     /**
-     * Format field value into Member object
+     * Format field value into Member object.
      *
      * @return Member
      */
@@ -155,14 +156,14 @@ class ConfigurablePageFieldExtension extends DataExtension
     }
 
     /**
-     * Format field value into ArrayList object with one field "name"
+     * Format field value into ArrayList object with one field "name".
      *
      * @return ArrayList
      */
     protected function nameListField()
     {
         $values = explode(',', $this->owner->Value);
-        $value = new ArrayList;
+        $value  = new ArrayList();
         array_walk($values, function ($item) use ($value) {
             $value->push(['name' => $item]);
         });
@@ -191,7 +192,7 @@ class ConfigurablePageFieldExtension extends DataExtension
     }
 
     /**
-     * Editable field can only be changed if is not part of a group
+     * Editable field can only be changed if is not part of a group.
      *
      * @param null $member
      *

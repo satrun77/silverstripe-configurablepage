@@ -1,54 +1,55 @@
 <?php
 
 /**
- * ConfigurablePage is the page class for the module
+ * ConfigurablePage is the page class for the module.
  *
  * @author  Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @package configurablepage
  */
 class ConfigurablePage extends Page
 {
     private static $many_many = [
-        'Fields' => 'EditableField'
+        'Fields' => 'EditableField',
     ];
     private static $many_many_extraFields = [
         'Fields' => [
             'Value' => 'Text',
-            "Sort"  => "Int",
-            "Group" => "Int"
-        ]
+            'Sort'  => 'Int',
+            'Group' => 'Int',
+        ],
     ];
     private static $has_one = [
-        'EditableFieldGroup' => 'EditableFieldGroup'
+        'EditableFieldGroup' => 'EditableFieldGroup',
     ];
     private static $singular_name = 'Configurable Page';
-    private static $plural_name = 'Configurable Pages';
-    private static $description = 'Create page with configurable fields';
-    private static $icon = 'configurablepage/images/icon.png';
+    private static $plural_name   = 'Configurable Pages';
+    private static $description   = 'Create page with configurable fields';
+    private static $icon          = 'configurablepage/images/icon.png';
 
     /**
-     * An array of required field names
+     * An array of required field names.
      *
      * @var array
      */
     protected $requiredFields = [];
 
     /**
-     * An instance of ManyManyList containing the current values from the configurable fields
+     * An instance of ManyManyList containing the current values from the configurable fields.
      *
      * @var ManyManyList
      */
     protected $editableFields;
 
     /**
-     * List of allowed child page types
+     * List of allowed child page types.
      *
      * @var array
      */
     private static $allowed_children = ['ConfigurablePage', 'SiteTree'];
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
      *
      * @see SiteTree::getCMSFields()
      */
@@ -59,7 +60,7 @@ class ConfigurablePage extends Page
 
         // List of available fields in the page
         $groupFields = $this->EditableFieldGroup()->Fields();
-        $list = $this->Fields()->addMany($groupFields)->sort('Sort', 'ASC');
+        $list        = $this->Fields()->addMany($groupFields)->sort('Sort', 'ASC');
 
         // Add tab to edit fields values
         $this->buildPageFieldsTab($list, $fields);
@@ -84,7 +85,7 @@ class ConfigurablePage extends Page
             ->setFieldFormatting([
                                      'Group' => function ($value) {
                                          return !$value ? '' : $this->EditableFieldGroup()->Title;
-                                     }
+                                     },
                                  ]);
         $fieldsField = new GridField('Fields', 'Fields', $list, $config);
 
@@ -93,7 +94,7 @@ class ConfigurablePage extends Page
         $groups->unshift('', '');
 
         $groupsField = new DropdownField(
-            "EditableFieldGroupID",
+            'EditableFieldGroupID',
             _t('ConfigurablePage.FIELDGROUP', 'Editable field group'),
             $groups
         );
@@ -115,7 +116,7 @@ class ConfigurablePage extends Page
     }
 
     /**
-     * Create tab to edit fields values
+     * Create tab to edit fields values.
      *
      * @param ManyManyList $list
      * @param FieldList    $fields
@@ -165,7 +166,7 @@ class ConfigurablePage extends Page
     }
 
     /**
-     * Set required fields
+     * Set required fields.
      *
      * @return RequiredFields
      */
@@ -175,7 +176,7 @@ class ConfigurablePage extends Page
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
      *
      * @see SiteTree::onBeforeWrite()
      */
@@ -200,7 +201,7 @@ class ConfigurablePage extends Page
 
                 // Extra fields to be saved
                 $value = $field->Value();
-                $sort = $pageField->Sort;
+                $sort  = $pageField->Sort;
                 $group = $pageField->Group;
 
                 // Clone the editable field object
@@ -213,7 +214,7 @@ class ConfigurablePage extends Page
     }
 
     /**
-     * Format the page Content
+     * Format the page Content.
      *
      * @return string
      */
@@ -227,7 +228,7 @@ class ConfigurablePage extends Page
         // & create dictionary of the custom fields values
         foreach ($fields as $field) {
             $value = $field->getViewValue();
-            $name = $field->getViewFieldName();
+            $name  = $field->getViewFieldName();
 
             // Fields with false value are not viewable data
             if ($value !== false) {
@@ -245,7 +246,7 @@ class ConfigurablePage extends Page
     }
 
     /**
-     * Get an array of all of the editable fields for the view template
+     * Get an array of all of the editable fields for the view template.
      *
      * @return ManyManyList
      */
@@ -254,7 +255,7 @@ class ConfigurablePage extends Page
         if (null === $this->editableFields) {
             // Fields from editable field groups
             $groupFields = $this->EditableFieldGroup()->Fields();
-            $ids = $groupFields->getIDList();
+            $ids         = $groupFields->getIDList();
 
             // Set page specific fields
             $this->editableFields = $this->Fields();
