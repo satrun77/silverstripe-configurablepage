@@ -1,10 +1,30 @@
 ---
 name: configurablepage
 ---
-EditableField:
+Moo_EditableField:
   extensions:
     - ConfigurablePageFieldExtension
 
-EditableFieldGroup:
+Moo_EditableFieldGroup:
   extensions:
     - ConfigurablePageFieldGroupExtension
+
+Moo_EditableFieldCheckboxGroup:
+  extensions:
+    - EditableFieldCheckboxGroupExtension
+
+Moo_EditableFieldDate:
+  extensions:
+    - EditableFieldDateExtension
+
+Moo_EditableFieldMemberList:
+  extensions:
+    - EditableFieldMemberListExtension
+
+Moo_EditableFieldPageTypeList:
+  extensions:
+    - EditableFieldPageTypeListExtension
+
+Moo_EditableFieldCountryDropdown:
+  extensions:
+    - EditableFieldCountryDropdownExtension

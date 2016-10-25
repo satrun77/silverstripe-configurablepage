@@ -4,13 +4,11 @@
  * ConfigurablePage is the page class for the module.
  *
  * @author  Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
- *
- * @package configurablepage
  */
 class ConfigurablePage extends Page
 {
     private static $many_many = [
-        'Fields' => 'EditableField',
+        'Fields' => 'Moo_EditableField',
     ];
     private static $many_many_extraFields = [
         'Fields' => [
@@ -20,12 +18,12 @@ class ConfigurablePage extends Page
         ],
     ];
     private static $has_one = [
-        'EditableFieldGroup' => 'EditableFieldGroup',
+        'EditableFieldGroup' => 'Moo_EditableFieldGroup',
     ];
     private static $singular_name = 'Configurable Page';
-    private static $plural_name   = 'Configurable Pages';
-    private static $description   = 'Create page with configurable fields';
-    private static $icon          = 'configurablepage/images/icon.png';
+    private static $plural_name = 'Configurable Pages';
+    private static $description = 'Create page with configurable fields';
+    private static $icon = 'configurablepage/images/icon.png';
 
     /**
      * An array of required field names.
@@ -60,33 +58,41 @@ class ConfigurablePage extends Page
 
         // List of available fields in the page
         $groupFields = $this->EditableFieldGroup()->Fields();
-        $list        = $this->Fields()->addMany($groupFields)->sort('Sort', 'ASC');
+        $list = $this->Fields()->addMany($groupFields)->sort('Sort', 'ASC');
 
         // Add tab to edit fields values
         $this->buildPageFieldsTab($list, $fields);
 
+        // Add tab to manage page fields
+        $this->buildManageFieldsTab($list, $fields);
+
+        return $fields;
+    }
+
+    /**
+     * Create tab to manage page fields.
+     *
+     * @param FieldList $fields
+     */
+    protected function buildManageFieldsTab(ManyManyList $list, FieldList $fields)
+    {
         // GridField for managing page specific fields
         $config = GridFieldConfig_RelationEditor::create();
         $config->getComponentByType('GridFieldPaginator')->setItemsPerPage(10);
         $config->removeComponentsByType('GridFieldAddNewButton');
         $config->removeComponentsByType('GridFieldEditButton');
         $config->getComponentByType('GridFieldDataColumns')->setDisplayFields([
-                                                                                  'Name'  => _t('ConfigurablePage.NAME',
-                                                                                                'Name'),
-                                                                                  'Title' => _t('ConfigurablePage.TITLE',
-                                                                                                'Title'),
-                                                                                  'Sort'  => _t('ConfigurablePage.SORT',
-                                                                                                'Sort'),
-                                                                                  'Group' => _t('ConfigurablePage.GROUP',
-                                                                                                'Group'),
-                                                                              ]);
-        $config->addComponent(new GridFieldEditableManyManyExtraColumns(['Sort' => 'Int']), 'GridFieldEditButton');
+            'Name'  => _t('ConfigurablePage.NAME', 'Name'),
+            'Title' => _t('ConfigurablePage.TITLE', 'Title'),
+            'Group' => _t('ConfigurablePage.GROUP', 'Group'),
+        ]);
+        $config->addComponent(new GridFieldOrderableRows('Sort'));
         $config->getComponentByType('GridFieldDataColumns')
             ->setFieldFormatting([
-                                     'Group' => function ($value) {
-                                         return !$value ? '' : $this->EditableFieldGroup()->Title;
-                                     },
-                                 ]);
+                'Group' => function ($value) {
+                    return !$value ? '' : $this->EditableFieldGroup()->Title;
+                },
+            ]);
         $fieldsField = new GridField('Fields', 'Fields', $list, $config);
 
         // Drop-down list of editable field groups
@@ -99,20 +105,15 @@ class ConfigurablePage extends Page
             $groups
         );
         $groupsField->setDescription(_t(
-                                         'ConfigurablePage.FIELDGROUP_HELP',
-                                         'Select a group to load its collection of fields in the current page. '
-                                         . 'You need to click save to update the page fields.'
-                                     ));
+            'ConfigurablePage.FIELDGROUP_HELP',
+            'Select a group to load its collection of fields in the current page. '
+            . 'You need to click save to update the page fields.'
+        ));
 
         // Add fields to manage page fields tab
-        $fields->addFieldToTab('Root.ManagePageFields', $groupsField);
-        $fields->addFieldToTab('Root.ManagePageFields', $fieldsField);
-
-        // JS & CSS for the gridfield sort column
-        Requirements::javascript('configurablepage/javascript/ConfigurablePage.js');
-        Requirements::css('configurablepage/css/ConfigurablePage.css');
-
-        return $fields;
+        $fields->addFieldsToTab('Root.ManagePageFields', [
+            $groupsField, $fieldsField,
+        ]);
     }
 
     /**
@@ -121,48 +122,55 @@ class ConfigurablePage extends Page
      * @param ManyManyList $list
      * @param FieldList    $fields
      */
-    public function buildPageFieldsTab(ManyManyList $list, FieldList $fields)
+    protected function buildPageFieldsTab(ManyManyList $list, FieldList $fields)
     {
         $fields->findOrMakeTab('Root.Fields', _t('ConfigurablePage.FIELDS', 'Fields'));
 
-        foreach ($list as $editableField) {
-            // Get the raw form field from the editable version
-            $field = $editableField->getFormField();
-            if (!$field) {
-                continue;
+        $list->each(function (Moo_EditableField $editableField) use ($fields) {
+            $field = $this->getFieldFromEditableField($editableField);
+            if (false === $field) {
+                $fields->addFieldToTab('Root.Fields', $field);
             }
+        });
+    }
 
-            // Set the error / formatting messages
-            $field->setCustomValidationMessage($editableField->getErrorMessage());
-
-            // Set the right title on this field
-            $right = $editableField->getSetting('RightTitle');
-            if ($right) {
-                $field->setRightTitle($right);
-                $field->addExtraClass('help');
-            }
-
-            // Set the required field
-            if ($editableField->Required) {
-                $this->requiredFields[] = $editableField->Name;
-            }
-
-            // Set field extra class
-            if ($editableField->getSetting('ExtraClass')) {
-                $field->addExtraClass(Convert::raw2att(
-                    $editableField->getSetting('ExtraClass')
-                ));
-            }
-
-            // Set the value
-            if (!$field instanceof DatalessField) {
-                $field->value = Convert::raw2att($editableField->Value);
-                $this->setField($editableField->Name, $editableField->Value);
-            }
-
-            // Add field to tab
-            $fields->addFieldToTab('Root.Fields', $field);
+    /**
+     * Add an editable field to the fields tab.
+     *
+     * @param Moo_EditableField $editableField
+     *
+     * @return bool|FormField
+     */
+    protected function getFieldFromEditableField(Moo_EditableField $editableField)
+    {
+        // Get the raw form field from the editable version
+        $field = $editableField->getFormField();
+        if (!$field) {
+            return false;
         }
+
+        // Set the error / formatting messages
+        $field->setCustomValidationMessage($editableField->getErrorMessage());
+
+        // Set the right title on this field
+        $right = $editableField->getSetting('RightTitle');
+        if ($right) {
+            $field->setRightTitle($right);
+            $field->addExtraClass('help');
+        }
+
+        // Set the required field
+        if ($editableField->Required) {
+            $this->requiredFields[] = $editableField->Name;
+        }
+
+        // Set the value
+        if (!$field instanceof DatalessField) {
+            $field->value = Convert::raw2att($editableField->Value);
+            $this->setField($editableField->Name, $editableField->Value);
+        }
+
+        return $field;
     }
 
     /**
@@ -175,11 +183,6 @@ class ConfigurablePage extends Page
         return new RequiredFields($this->requiredFields);
     }
 
-    /**
-     * (non-PHPdoc).
-     *
-     * @see SiteTree::onBeforeWrite()
-     */
     public function onAfterWrite()
     {
         parent::onAfterWrite();
@@ -190,8 +193,8 @@ class ConfigurablePage extends Page
         }
 
         // Update the values of all fields added from editable field
-        if ($this->ID && $this->many_many('Fields') && $pageFields = $this->getEditableFields()) {
-            foreach ($pageFields as $pageField) {
+        if ($this->ID && $this->manyMany('Fields') && $pageFields = $this->getEditableFields()) {
+            $pageFields->each(function (Moo_EditableField $pageField) use ($pageFields) {
                 // Set submitted value into the field
                 $field = $pageField->getFormField();
                 if (!$field) {
@@ -201,7 +204,7 @@ class ConfigurablePage extends Page
 
                 // Extra fields to be saved
                 $value = $field->Value();
-                $sort  = $pageField->Sort;
+                $sort = $pageField->Sort;
                 $group = $pageField->Group;
 
                 // Clone the editable field object
@@ -209,7 +212,7 @@ class ConfigurablePage extends Page
                 $pageFields->remove($pageField);
                 // Add the clone with the new extra data
                 $pageFields->add($pageField, ['Value' => $value, 'Sort' => $sort, 'Group' => $group]);
-            }
+            });
         }
     }
 
@@ -228,7 +231,7 @@ class ConfigurablePage extends Page
         // & create dictionary of the custom fields values
         foreach ($fields as $field) {
             $value = $field->getViewValue();
-            $name  = $field->getViewFieldName();
+            $name = $field->getViewFieldName();
 
             // Fields with false value are not viewable data
             if ($value !== false) {
@@ -255,7 +258,7 @@ class ConfigurablePage extends Page
         if (null === $this->editableFields) {
             // Fields from editable field groups
             $groupFields = $this->EditableFieldGroup()->Fields();
-            $ids         = $groupFields->getIDList();
+            $ids = $groupFields->getIDList();
 
             // Set page specific fields
             $this->editableFields = $this->Fields();

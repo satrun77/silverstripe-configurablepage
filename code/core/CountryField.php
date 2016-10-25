@@ -4,8 +4,6 @@
  * CountryField is an object that hold a country locale details. It is callable from template files.
  *
  * @author  Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
- *
- * @package configurablepage
  */
 class CountryField extends ViewableData
 {
@@ -47,6 +45,6 @@ class CountryField extends ViewableData
      */
     public function Name()
     {
-        return (string) Zend_Locale::getTranslation($this->Code(), 'country', i18n::get_locale());
+        return (string)Zend_Locale::getTranslation($this->Code(), 'country', i18n::get_locale());
     }
 }

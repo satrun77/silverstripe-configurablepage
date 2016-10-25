@@ -5,7 +5,7 @@
  *
  * @author  Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @package configurablepage
+ *
  */
 class ConfigurablePageTest extends FunctionalTest
 {
