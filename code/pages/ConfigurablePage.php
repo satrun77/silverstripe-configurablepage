@@ -128,7 +128,7 @@ class ConfigurablePage extends Page
 
         $list->each(function (Moo_EditableField $editableField) use ($fields) {
             $field = $this->getFieldFromEditableField($editableField);
-            if (false === $field) {
+            if (false !== $field) {
                 $fields->addFieldToTab('Root.Fields', $field);
             }
         });
@@ -198,7 +198,7 @@ class ConfigurablePage extends Page
                 // Set submitted value into the field
                 $field = $pageField->getFormField();
                 if (!$field) {
-                    continue;
+                    return;
                 }
                 $field->setValue($this->{$pageField->Name});
 

@@ -1,4 +1,4 @@
-EditableFieldOption:
+Moo_EditableFieldOption:
     option1:
         Name: Option1
         Title: Option 1
@@ -11,7 +11,7 @@ EditableFieldOption:
         Name: Option3
         Title: Option 3
 
-EditableFieldText:
+Moo_EditableFieldText:
     textfield1:
         Name: textfield1
         Title: Text Field
@@ -19,7 +19,7 @@ EditableFieldText:
         Required: 1
         CustomErrorMessage: Empty value is not allowed
 
-EditableFieldPageTypeList:
+Moo_EditableFieldPageTypeList:
     pagetypefield1:
         Name: pagetypefield1
         Title: Page Type list 1
@@ -29,17 +29,17 @@ EditableFieldPageTypeList:
         Title: Page Type list 2
         CustomSettings: a:1:{s:12:"PageTypeName";s:4:"Page";}
 
-EditableFieldCountryDropdown:
+Moo_EditableFieldCountryDropdown:
     countryfield:
         Name: countryfield
         Title: Country list
 
-EditableFieldDate:
+Moo_EditableFieldDate:
     dobfield:
         Name: dobfield
         Title: DOB text
 
-EditableFieldMemberList:
+Moo_EditableFieldMemberList:
     memberfield1:
         Name: memberfield1
         Title: Member list 1
@@ -49,13 +49,13 @@ EditableFieldMemberList:
         Name: memberfield2
         Title: Member list 2
 
-EditableFieldCheckboxGroup:
+Moo_EditableFieldCheckboxGroup:
     checkboxgroup:
         Name: checkboxgroup
         Title: Check box group
-        Options: =>EditableFieldOption.option1, =>EditableFieldOption.option2, =>EditableFieldOption.option3
+        Options: =>Moo_EditableFieldOption.option1, =>Moo_EditableFieldOption.option2, =>Moo_EditableFieldOption.option3
 
-EditableFieldHeading:
+Moo_EditableFieldHeading:
     headingfield:
         Name: headingfield
         Title: Heading text
@@ -64,11 +64,11 @@ EditableFieldHeading:
 ConfigurablePage:
     page-1:
         Title: Configurable Page 1
-        Fields: =>EditableFieldText.textfield1, =>EditableFieldPageTypeList.pagetypefield1, =>EditableFieldMemberList.memberfield2
+        Fields: =>Moo_EditableFieldText.textfield1, =>Moo_EditableFieldPageTypeList.pagetypefield1, =>Moo_EditableFieldMemberList.memberfield2
 
     page-2:
         Title: Configurable Page 1
-        Fields: =>EditableFieldCountryDropdown.countryfield, =>EditableFieldDate.dobfield, =>EditableFieldMemberList.memberfield1, =>EditableFieldHeading.headingfield, =>EditableFieldCheckboxGroup.checkboxgroup, =>EditableFieldPageTypeList.pagetypefield2
+        Fields: =>Moo_EditableFieldCountryDropdown.countryfield, =>Moo_EditableFieldDate.dobfield, =>Moo_EditableFieldMemberList.memberfield1, =>Moo_EditableFieldHeading.headingfield, =>Moo_EditableFieldCheckboxGroup.checkboxgroup, =>Moo_EditableFieldPageTypeList.pagetypefield2
 
 Page:
     page-3:
