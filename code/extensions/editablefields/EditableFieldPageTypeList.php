@@ -12,7 +12,7 @@ class EditableFieldPageTypeListExtension extends DataExtension
      */
     public function getViewValue()
     {
-        return Page::get()->byID((int)$this->owner->Value);
+        return Page::get()->byID((int) $this->owner->Value);
     }
 
     /**

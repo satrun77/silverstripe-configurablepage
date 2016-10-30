@@ -4,8 +4,6 @@
  * ConfigurablePageTest contains test cases for the module classes.
  *
  * @author  Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
- *
- *
  */
 class ConfigurablePageTest extends FunctionalTest
 {

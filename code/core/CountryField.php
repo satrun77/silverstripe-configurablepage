@@ -45,6 +45,6 @@ class CountryField extends ViewableData
      */
     public function Name()
     {
-        return (string)Zend_Locale::getTranslation($this->Code(), 'country', i18n::get_locale());
+        return (string) Zend_Locale::getTranslation($this->Code(), 'country', i18n::get_locale());
     }
 }

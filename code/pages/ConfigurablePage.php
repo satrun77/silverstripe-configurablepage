@@ -21,9 +21,9 @@ class ConfigurablePage extends Page
         'EditableFieldGroup' => 'Moo_EditableFieldGroup',
     ];
     private static $singular_name = 'Configurable Page';
-    private static $plural_name = 'Configurable Pages';
-    private static $description = 'Create page with configurable fields';
-    private static $icon = 'configurablepage/images/icon.png';
+    private static $plural_name   = 'Configurable Pages';
+    private static $description   = 'Create page with configurable fields';
+    private static $icon          = 'configurablepage/images/icon.png';
 
     /**
      * An array of required field names.
@@ -58,7 +58,7 @@ class ConfigurablePage extends Page
 
         // List of available fields in the page
         $groupFields = $this->EditableFieldGroup()->Fields();
-        $list = $this->Fields()->addMany($groupFields)->sort('Sort', 'ASC');
+        $list        = $this->Fields()->addMany($groupFields)->sort('Sort', 'ASC');
 
         // Add tab to edit fields values
         $this->buildPageFieldsTab($list, $fields);
@@ -231,7 +231,7 @@ class ConfigurablePage extends Page
         // & create dictionary of the custom fields values
         foreach ($fields as $field) {
             $value = $field->getViewValue();
-            $name = $field->getViewFieldName();
+            $name  = $field->getViewFieldName();
 
             // Fields with false value are not viewable data
             if ($value !== false) {
@@ -258,7 +258,7 @@ class ConfigurablePage extends Page
         if (null === $this->editableFields) {
             // Fields from editable field groups
             $groupFields = $this->EditableFieldGroup()->Fields();
-            $ids = $groupFields->getIDList();
+            $ids         = $groupFields->getIDList();
 
             // Set page specific fields
             $this->editableFields = $this->Fields();

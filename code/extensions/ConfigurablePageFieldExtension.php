@@ -26,7 +26,7 @@ class ConfigurablePageFieldExtension extends DataExtension
         }
 
         // Default return string
-        return (string)$this->owner->Value;
+        return (string) $this->owner->Value;
     }
 
     /**
@@ -36,7 +36,7 @@ class ConfigurablePageFieldExtension extends DataExtension
      */
     public function getValueAsString()
     {
-        return (string)$this->owner->Value;
+        return (string) $this->owner->Value;
     }
 
     /**
@@ -58,6 +58,6 @@ class ConfigurablePageFieldExtension extends DataExtension
      */
     public function canEdit($member = null)
     {
-        return (int)$this->owner->Group === 0;
+        return (int) $this->owner->Group === 0;
     }
 }

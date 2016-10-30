@@ -13,7 +13,7 @@ class EditableFieldCheckboxGroupExtension extends DataExtension
     public function getViewValue()
     {
         $values = explode(',', $this->owner->Value);
-        $value = new ArrayList();
+        $value  = new ArrayList();
 
         array_walk($values, function ($item) use ($value) {
             $value->push(['name' => $item]);

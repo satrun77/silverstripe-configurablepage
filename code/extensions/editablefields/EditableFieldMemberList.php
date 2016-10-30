@@ -12,7 +12,7 @@ class EditableFieldMemberListExtension extends DataExtension
      */
     public function getViewValue()
     {
-        return Member::get()->byID((int)$this->owner->Value);
+        return Member::get()->byID((int) $this->owner->Value);
     }
 
     /**
