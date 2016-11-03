@@ -96,7 +96,7 @@ class ConfigurablePage extends Page
         $fieldsField = new GridField('Fields', 'Fields', $list, $config);
 
         // Drop-down list of editable field groups
-        $groups = EditableFieldGroup::get()->map();
+        $groups = Moo_EditableFieldGroup::get()->map();
         $groups->unshift('', '');
 
         $groupsField = new DropdownField(
