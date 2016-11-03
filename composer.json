@@ -15,7 +15,7 @@
 	"require": {
 		"silverstripe/framework": "~3.3",
 		"silverstripe/cms": "~3.3",
-		"satrun77/editablefield": "~1.1"
+		"satrun77/editablefield": "*"
 	},
 	"suggest": {
 		"satrun77/viewtemplate": "Allows to create reusable templates that make use of editable fields objects."
