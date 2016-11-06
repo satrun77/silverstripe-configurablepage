@@ -17,13 +17,6 @@ This module allows CMS users to create pages with customisable fields that are s
 $ php composer.phar require satrun77/configurablepage
 ```
 
-### 2. Download silverstripe-gridfieldeditablemanymanyextracolumns manually
-- Open the following url in your browser. It should download a zip file containing the module files.
-[https://github.com/satrun77/silverstripe-gridfieldeditablemanymanyextracolumns/zipball/master/](https://github.com/satrun77/silverstripe-gridfieldeditablemanymanyextracolumns/zipball/master/)
-
-- Uncompress the file, move the folder to the root directory of your Silverstripe application, and rename it to **gridfieldeditablemanymanyextracolumns**.
-- **Note:** This module is not managed by composer. You will need to upgrade the module manually.
-
 ### 2. Clear CMS cache
 * Login as administrator
 * Navigation to http://yousite.com/dev/build
